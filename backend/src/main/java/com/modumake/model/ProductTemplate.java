@@ -1,15 +1,14 @@
 package com.modumake.model;
 
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Entity
-@Table(name = "product_templates")
+@Document(collection = "product_templates")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,27 +16,20 @@ import java.util.UUID;
 public class ProductTemplate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "hsn_code", nullable = false)
     private String hsnCode;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Category category;
 
-    @CreationTimestamp
-    @Column(updatable = false)
+    @CreatedDate
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     public enum Category {

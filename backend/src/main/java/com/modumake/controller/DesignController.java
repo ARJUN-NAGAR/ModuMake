@@ -92,7 +92,11 @@ public class DesignController {
     }
 
     private User getAuthenticatedUser() {
-        // Fallback admin logic until JWT parsing provides SecurityContextHolder properly
+        org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof String email) {
+            return userRepository.findByEmail(email).orElse(null);
+        }
+        // Fallback until Next.js strictly requires JWT
         return userRepository.findByEmail("admin@modumake.com").orElse(null);
     }
 }
